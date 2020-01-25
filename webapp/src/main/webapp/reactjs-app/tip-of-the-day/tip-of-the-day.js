@@ -74,16 +74,14 @@ const tipOfTheDay = () => {
                     </h5>
                 </div>
                 {tip.poster !== 'system' ? (
-                        <div className="tip-info-data">
-                            <p className="tip-info-field">
-                                Added by user <a>{tip.poster}</a>
-                            </p>
-                            &nbsp;
-                            <p className="tip-info-field right-space"> at {convertDate(tip.posted)}</p>
-                        </div>
-                    ) : null}
+                    <div className="tip-author">
+                        <p className="tip-author-field">
+                            Added by user <a>{tip.poster}</a>&nbsp;
+                        </p>
+                        <p className="tip-author-field right-space"> at {convertDate(tip.posted)}</p>
+                    </div>
+                ) : null}
                 <div className="tip-info">
-                    
                     <a className="actionIcon tip-btn" onClick={() => getRandomTip()}>
                         <i className="uiIconMiniArrowRight uiIconLightGray"></i>
                     </a>
@@ -91,7 +89,7 @@ const tipOfTheDay = () => {
                         <i className="uiIconSimplePlusMini uiIconLightGray"></i>
                     </a>
                 </div>
-                <ReactTooltip effect="solid" place="bottom" multiline="true" />
+                <ReactTooltip effect="solid" place="bottom" className="tip-tooltip" />
             </>
         );
     } else if (showAddTip) {
@@ -124,7 +122,7 @@ const tipOfTheDay = () => {
         <div ref={tipElement}>
             <div className="tipBox">
                 {alertMessage}
-                <div className={'tipBox-container' + (showAddTip ? ' start-align' : '')}>
+                <div className={'tipBox-container' + (showAddTip ? ' add-custom-tip' : '')}>
                     <i className="uiIconQuestion uiIconBlue right-space"></i>
                     {displayedTip}
                     <a className="actionIcon tip-btn tip-btn--close" onClick={() => hideTipBlock()}>

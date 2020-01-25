@@ -1,12 +1,18 @@
+@import '../color-variables.less';
+
 .tipBox {
     display: flex;
     flex-direction: column;
     padding: 0 15px;
-    background: #f0f0f0;
-    border: 1px solid #cccccc;
+    background: @mainBg;
+    border: 1px solid @mainBorder;
     border-radius: 3px;
-    box-shadow: 0px 2px 4px -1px rgba(35, 44, 48, 0.18);
+    box-shadow: 0px 2px 4px -1px @mainShadow;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 767px) {
+        margin-bottom: 0;
+    }
 
     &-container {
         display: flex;
@@ -14,24 +20,15 @@
         align-items: center;
         padding: 5px 0;
 
-        @media screen and (max-width: 480px) {
+        @media screen and (max-width: 1279px) {
             flex-wrap: wrap;
         }
-
-        // @media screen and (max-width: 480px) {
-        //     flex-wrap: wrap;
-        //     position: relative;
-        // }
 
         .tip-area {
             display: flex;
             align-items: center;
             flex: 1;
-
-            // @media screen and (max-width: 480px) {
-            //     max-width: 340px;
-            //     flex: auto;
-            // }
+            min-width: 45%;
 
             &__recieved-tip {
                 position: relative;
@@ -47,7 +44,7 @@
                     right: 0;
                     width: 15%;
                     height: 20px;
-                    background: linear-gradient(to right, rgba(255, 255, 255, 0), #f0f0f0 50%);
+                    background: linear-gradient(to right, rgba(255, 255, 255, 0), @mainBg 50%);
                 }
             }
 
@@ -56,40 +53,37 @@
             }
         }
 
-        .tip-info-data {
+        .tip-author {
             display: flex;
 
-            @media screen and (max-width: 480px) {
+            @media screen and (max-width: 1279px) {
                 order: 1;
+                min-width: 285px;
+            }
+
+            &-field {
+                color: @textInfo;
+                margin: 0;
+
+                a {
+                    color: @textLink;
+                    text-decoration: none;
+                }
             }
         }
 
         .tip-info {
             display: flex;
             align-items: center;
-
-            &-field {
-                color: #999999;
-                margin: 0;
-
-                a {
-                    color: #2f5e92;
-                    text-decoration: none;
-                }
-            }
-
-            // @media screen and (max-width: 480px) {
-            //     min-width: 275px;
-            //     flex-wrap: wrap;
-            // }
         }
 
-        &.start-align {
+        &.add-custom-tip {
             align-items: flex-start;
+            padding-top: 15px;
         }
 
         .right-space {
-            margin-right: 10px;
+            margin-right: 5px;
         }
 
         .tip-btn {
@@ -99,13 +93,11 @@
                 .uiIconClose {
                     top: 0;
                 }
-
-                // @media screen and (max-width: 480px) {
-                //     position: absolute;
-                //     top: 5px;
-                //     right: -10px;
-                // }
             }
+        }
+
+        .tip-tooltip {
+            max-width: 300px;
         }
     }
 }
