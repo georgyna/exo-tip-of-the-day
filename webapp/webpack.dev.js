@@ -6,7 +6,8 @@ const webpackCommonConfig = require('./webpack.common.js');
 const app = 'tipoftheday';
 
 // add the server path to your server location path
-const exoServerPath = "/eXo/tip-of-the-day/platform-community-5.2.2";
+// const exoServerPath = "/eXo/tip-of-the-day/platform-community-5.2.2";
+const exoServerPath = "D:/sasha_work/2020/exo-tip/platform-community-5.2.2-tipoftheday-react/platform-community-5.2.2";
 
 let config = merge(webpackCommonConfig, {
   output: {

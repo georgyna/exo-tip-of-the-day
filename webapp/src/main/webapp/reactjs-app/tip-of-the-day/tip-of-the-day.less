@@ -1,26 +1,39 @@
-.bordered {
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-}
-
 .tipBox {
     display: flex;
     flex-direction: column;
-    padding: 0px 15px;
-    background: #ffffff;
-    .bordered();
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+    padding: 0 15px;
+    background: #f0f0f0;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-shadow: 0px 2px 4px -1px rgba(35, 44, 48, 0.18);
+    margin-bottom: 20px;
 
     &-container {
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin-bottom: 10px;
+        padding: 5px 0;
 
-        .tip-text {
+        @media screen and (max-width: 480px) {
+            flex-wrap: wrap;
+        }
+
+        // @media screen and (max-width: 480px) {
+        //     flex-wrap: wrap;
+        //     position: relative;
+        // }
+
+        .tip-area {
+            display: flex;
+            align-items: center;
             flex: 1;
 
-            &-header {
+            // @media screen and (max-width: 480px) {
+            //     max-width: 340px;
+            //     flex: auto;
+            // }
+
+            &__recieved-tip {
                 position: relative;
                 height: 20px;
                 width: 100%;
@@ -34,50 +47,65 @@
                     right: 0;
                     width: 15%;
                     height: 20px;
-                    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+                    background: linear-gradient(to right, rgba(255, 255, 255, 0), #f0f0f0 50%);
                 }
+            }
+
+            &__entered-tip {
+                width: 100%;
+            }
+        }
+
+        .tip-info-data {
+            display: flex;
+
+            @media screen and (max-width: 480px) {
+                order: 1;
             }
         }
 
         .tip-info {
-            color: #999999;
-            margin: 0;
+            display: flex;
+            align-items: center;
 
-            a {
-                color: #2f5e92;
-                text-decoration: none;
+            &-field {
+                color: #999999;
+                margin: 0;
+
+                a {
+                    color: #2f5e92;
+                    text-decoration: none;
+                }
             }
+
+            // @media screen and (max-width: 480px) {
+            //     min-width: 275px;
+            //     flex-wrap: wrap;
+            // }
         }
-    }
 
-    &-add-container {
-        display: flex;
-        align-items: flex-start;
-        background-color: #f0f0f0;
-        .bordered();
-        margin: 10px;
-        padding: 10px;
-
-        .add-tip-area {
-            flex: 1;
+        &.start-align {
+            align-items: flex-start;
         }
-    }
 
-    .tip-text,
-    .tip-info-area {
-        display: flex;
-        align-items: center;
-    }
+        .right-space {
+            margin-right: 10px;
+        }
 
-    .right-space {
-        margin-right: 10px;
-    }
+        .tip-btn {
+            height: 20px;
 
-    .tip-btn {
-        height: 20px;
+            &--close {
+                .uiIconClose {
+                    top: 0;
+                }
 
-        .uiIconClose {
-            top: 0;
+                // @media screen and (max-width: 480px) {
+                //     position: absolute;
+                //     top: 5px;
+                //     right: -10px;
+                // }
+            }
         }
     }
 }

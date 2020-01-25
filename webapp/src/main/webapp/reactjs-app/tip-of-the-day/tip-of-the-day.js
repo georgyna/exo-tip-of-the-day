@@ -38,7 +38,7 @@ const tipOfTheDay = () => {
             .post('/portal/rest/tipoftheday/tip', 'text=' + encodeURIComponent(customTip), {
                 headers: { 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             })
-            .then(res => setAlert({ message: `Tip "${res.data.text}" has been added successfully!`, type: 'success' }))
+            .then(res => displaySuccess(res.data.text), setCustomTip(''))
             .catch(err => displayError(err.response.data));
 
     const displayError = errorResponse => {
@@ -47,46 +47,72 @@ const tipOfTheDay = () => {
         setAlert({ message: errorMessage, type: 'error' });
     };
 
-    const hideTipBlock = () => {
-        tipElement.current.style.height = 0;
-        tipElement.current.style.overflow = 'hidden';
-        tipElement.current.style.border = 'none';
+    const displaySuccess = tipMessage => {
+        setAlert({ message: `Tip "${tipMessage}" has been added successfully!`, type: 'success' });
+        setShowAddTip(false);
+        setTimeout(() => setAlert(null), 2000);
     };
 
-    let recievedTip = <div>Loading ...</div>;
-    if (tip) {
-        recievedTip = (
-            <div className="tipBox-container">
-                <div className="tip-text">
-                    <i className="uiIconQuestion uiIconBlue right-space"></i>
-                    <h4 className="tip-text-header" data-tip={tip.text}>
+    const hideTipBlock = () => {
+        if (showAddTip) {
+            setCustomTip('');
+            setShowAddTip(false);
+            setAlert(null);
+        } else {
+            tipElement.current.style.height = 0;
+            tipElement.current.style.overflow = 'hidden';
+        }
+    };
+
+    let displayedTip = <div>Loading ...</div>;
+    if (tip && !showAddTip) {
+        displayedTip = (
+            <>
+                <div className="tip-area">
+                    <h5 className="tip-area__recieved-tip" data-tip={tip.text}>
                         {tip.text}
-                    </h4>
+                    </h5>
                 </div>
-                <div className="tip-info-area">
-                    {tip.poster !== 'system' ? (
-                        <React.Fragment>
-                            <p className="tip-info">
-                                Добавлено пользователем <a>{tip.poster}</a>
+                {tip.poster !== 'system' ? (
+                        <div className="tip-info-data">
+                            <p className="tip-info-field">
+                                Added by user <a>{tip.poster}</a>
                             </p>
                             &nbsp;
-                            <p className="tip-info right-space"> в {convertDate(tip.posted)}</p>
-                        </React.Fragment>
+                            <p className="tip-info-field right-space"> at {convertDate(tip.posted)}</p>
+                        </div>
                     ) : null}
+                <div className="tip-info">
+                    
                     <a className="actionIcon tip-btn" onClick={() => getRandomTip()}>
                         <i className="uiIconMiniArrowRight uiIconLightGray"></i>
                     </a>
                     <a className="actionIcon tip-btn" onClick={() => setShowAddTip(true)}>
                         <i className="uiIconSimplePlusMini uiIconLightGray"></i>
                     </a>
-                    <a className="actionIcon tip-btn" onClick={() => hideTipBlock()}>
-                        <i className="uiIconClose uiIconBlue"></i>
-                    </a>
                 </div>
-                <ReactTooltip effect="solid" place="bottom" />
-            </div>
+                <ReactTooltip effect="solid" place="bottom" multiline="true" />
+            </>
+        );
+    } else if (showAddTip) {
+        displayedTip = (
+            <>
+                <div className="tip-area">
+                    <textarea
+                        rows="3"
+                        value={customTip}
+                        onChange={event => setCustomTip(event.target.value)}
+                        placeholder="Enter your tip here."
+                        className="tip-area__entered-tip right-space"
+                    />
+                </div>
+                <button className="btn right-space" type="button" onClick={() => saveTip()}>
+                    Save
+                </button>
+            </>
         );
     }
+
     let alertMessage = alert ? (
         <div className={'alert alert-' + alert.type} id="">
             <i className={alert.type === 'success' ? 'uiIconSuccess' : 'uiIconError'}></i>
@@ -94,31 +120,18 @@ const tipOfTheDay = () => {
         </div>
     ) : null;
 
-    let addTipContainer = showAddTip ? (
-        <div className="tipBox-add-container">
-            <i className="uiIconQuestion uiIconBlue right-space"></i>
-            <textarea
-                rows="2"
-                value={customTip}
-                onChange={event => setCustomTip(event.target.value)}
-                placeholder="Напишите свой совет дня"
-                className="right-space add-tip-area"
-            ></textarea>
-            <button className="btn right-space" type="button" onClick={() => saveTip()}>
-                Save
-            </button>
-            <a className="actionIcon tip-btn" onClick={() => setShowAddTip(false)}>
-                <i className="uiIconClose uiIconBlue"></i>
-            </a>
-        </div>
-    ) : null;
-
     return (
-        <div className="tipBox" ref={tipElement}>
-            {alertMessage}
-            <h2>Совет дня</h2>
-            {recievedTip}
-            {addTipContainer}
+        <div ref={tipElement}>
+            <div className="tipBox">
+                {alertMessage}
+                <div className={'tipBox-container' + (showAddTip ? ' start-align' : '')}>
+                    <i className="uiIconQuestion uiIconBlue right-space"></i>
+                    {displayedTip}
+                    <a className="actionIcon tip-btn tip-btn--close" onClick={() => hideTipBlock()}>
+                        <i className="uiIconClose uiIconBlue"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     );
 };
